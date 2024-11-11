@@ -40,3 +40,11 @@ endif()
 
 
 # ... other CMake configurations ...
+add_library(cppjieba_static STATIC src/placeholder.cpp)
+
+add_custom_command(TARGET cppjieba_static POST_BUILD
+    COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_CURRENT_SOURCE_DIR}/dict
+    ${CMAKE_BINARY_DIR}/res/jieba_dict
+)
