@@ -41,10 +41,19 @@ endif()
 
 # ... other CMake configurations ...
 add_library(cppjieba_static STATIC src/placeholder.cpp)
+if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+  add_custom_command(TARGET cppjieba_static POST_BUILD
+      COMMAND
+      ${CMAKE_COMMAND} -E copy_directory
+      ${CMAKE_CURRENT_SOURCE_DIR}/dict/${dict}
+      ${CMAKE_SOURCE_DIR}/../assets/res/jieba_dict
+  )
 
+else ()
 add_custom_command(TARGET cppjieba_static POST_BUILD
     COMMAND
     ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_CURRENT_SOURCE_DIR}/dict
     ${CMAKE_BINARY_DIR}/res/jieba_dict
 )
+endif ()
